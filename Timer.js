@@ -2,7 +2,6 @@
 //---------------------------
 
 var Timer = function(delayMs, callbackFunc) {
-
   this.delayMs = delayMs;
   this.callbackFunc = callbackFunc;
   this.timerState = 'new';
@@ -14,7 +13,10 @@ Timer.prototype.start = function() {
 
     var self = this;
     this.timerState = 'running';
-    this.tmr = setInterval(function() { self._handleTmr(); }, this.delayMs);
+    this.tmr = setInterval(function() { 
+    	console.log('timer running');
+    	self._handleTmr(); 
+    }, this.delayMs);
 }
 
 Timer.prototype.pause = function(){
@@ -31,6 +33,7 @@ Timer.prototype.unpause = function(){
 
 Timer.prototype.cancel = function() {
     if( ! this.tmr ) return;
+	console.log('timer canceled');
 
     clearInterval(this.tmr);
     this.tmr = null;
@@ -38,6 +41,6 @@ Timer.prototype.cancel = function() {
 }
 
 Timer.prototype._handleTmr = function() {
-    this.tmr = null;
     this.callbackFunc();
+    this.cancel();
 }
